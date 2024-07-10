@@ -2,12 +2,15 @@ import Navbar from "../components/Navbar";
 
 function Home() {
     return (
-      <div className="flex justify-center">
-          <div className="flex flex-col">
-            <Navbar />
-            <span className="text-6xl">Welcome to <span className="bg-gradient-to-r from-blue-200 via-indigo-200 to-purple-400 inline-block text-transparent bg-clip-text">Habiteer</span>.</span>
+      <div className="flex justify-center flex-col">
+          <div className="flex flex-col h-screen w-full items-center text-white">
+            
+            <span className="text-6xl">Welcome to <span className="bg-gradient-to-r from-green-200 via-indigo-300 to-purple-400 inline-block text-transparent bg-clip-text">Habiteer</span>.</span>
             <p>Where your habits grow with you.</p>
-            <button class="btn btn-primary rounded-full mt-4">Click ME!</button>
+            <button href="#auth" class="btn btn-primary rounded-full mt-4">Create your first habit</button>
+        </div>
+        <div>
+          <h1>hello there</h1>
         </div>
       </div>
     );
