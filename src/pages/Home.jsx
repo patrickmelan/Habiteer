@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 function Home() {
@@ -7,7 +8,10 @@ function Home() {
             
             <span className="text-6xl">Welcome to <span className="bg-gradient-to-r from-green-200 via-indigo-300 to-purple-400 inline-block text-transparent bg-clip-text">Habiteer</span>.</span>
             <p>Where your habits grow with you.</p>
-            <button href="#auth" class="btn btn-primary rounded-full mt-4">Create your first habit</button>
+            <div className="flex space-x-4">
+              <button class="btn btn-primary rounded-full mt-4"><Link to="/auth">Create your first habit</Link></button>
+              <button class="btn btn-primary rounded-full mt-4"><Link to="/auth">Create your first habit</Link></button>  
+            </div>
         </div>
         <div>
           <h1>hello there</h1>
