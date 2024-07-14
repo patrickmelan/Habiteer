@@ -1,23 +1,45 @@
-import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import ColorPicker from "react-best-gradient-color-picker";
 
-function Home() {
+const Home = ({token}) => {
+    
+    let navigate = useNavigate();
+
+    function handleLogout() {
+        sessionStorage.removeItem("token");
+        navigate("/");
+    }
+
+    const [formData, updateFormData] = useState({
+        name: "",
+        streak: 0,
+        color_hex: "",
+        dates_completed: [""],
+        user_id: token.user.user_metadata.id
+    })
+    
+    const handleChange = (event) => {
+        updateFormData((prevFormData) => {
+            return {
+                ...prevFormData,
+                [event.target.name]:event.target.value
+            }
+        })
+    
+        //console.log(formData);
+    }
+
+    const [color, setColor] = useState('rgba(255, 255, 255, 1)');
+
     return (
-      <div className="flex justify-center flex-col">
-          <div className="flex flex-col h-screen w-full items-center text-white">
-            
-            <span className="text-6xl">Welcome to <span className="bg-gradient-to-r from-green-200 via-indigo-300 to-purple-400 inline-block text-transparent bg-clip-text">Habiteer</span>.</span>
-            <p>Where your habits grow with you.</p>
-            <div className="flex space-x-4">
-              <button class="btn btn-primary rounded-full mt-4"><Link to="/auth">Create your first habit</Link></button>
-              <button class="btn btn-primary rounded-full mt-4"><Link to="/auth">Create your first habit</Link></button>  
-            </div>
-        </div>
         <div>
-          <h1>hello there</h1>
+            <h1>Ready to make good habits, {token.user.user_metadata.first_name}?</h1>
+            <button onClick={handleLogout} className="btn btn-secondary"> Logout</button>
+            <button className="btn btn-primary ml-8">Create a Habit</button>
+
         </div>
-      </div>
-    );
-  }
-  
-  export default Home;
+    )
+}
+
+export default Home;
