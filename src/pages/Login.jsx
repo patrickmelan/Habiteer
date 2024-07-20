@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../sbclient";
 import { Link, useNavigate } from "react-router-dom";
+import AppLogo from "../components/AppLogo";
 
 export default function Login({setToken}) {
     
@@ -19,7 +20,7 @@ export default function Login({setToken}) {
             }
         })
     
-        console.log(formData);
+        //console.log(formData);
     }
 
     async function handleSubmit(e) {
@@ -32,7 +33,7 @@ export default function Login({setToken}) {
               })
             
               if (error) throw error;
-              console.log(data);
+              //console.log(data);
               setToken(data);
               navigate('/home');
 
@@ -43,8 +44,11 @@ export default function Login({setToken}) {
     
     return (
         <div className="flex justify-center h-screen">
-            <form action="" className=" py-36">
+            <form action="" className=" py-12">
                 <div className="flex flex-col space-y-3">
+                    <div>
+                        <AppLogo size={350}/>
+                    </div>
                     <input type="email" name="email" onChange={handleChange} placeholder="Email" required className="input input-bordered input-white w-full max-w-md"/>
                     <input type="password" name="password" onChange={handleChange} placeholder="Password" required className="input input-bordered input-white w-full max-w-md"/>
                     <button onClick={handleSubmit} className="btn btn-primary w-full max-w-md">Sign In</button>

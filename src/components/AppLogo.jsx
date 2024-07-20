@@ -1,5 +1,7 @@
-export default function AppLogo() {
+const AppLogo = ({size}) => {
     return (
-        <img src='icon.png' height={250} width={250} alt="Habiteer Logo (A leaf on a green/pink gradient background"/>
+        <img src='icon.png' height={size} width={size} alt="Habiteer Logo (A leaf on a green/pink gradient background"/>
     )
 }
+
+export default AppLogo;

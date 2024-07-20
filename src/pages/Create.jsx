@@ -42,7 +42,7 @@ export default function Create({setToken}) {
               })
               
               if (error) throw error;
-              //console.log(data);
+              console.log(data);
               setToken(data);
               navigate('/home');
 
@@ -53,7 +53,8 @@ export default function Create({setToken}) {
             .insert([{   
                 first_name: formData.first_name,
                 last_name: formData.last_name,
-                email: formData.email
+                email: formData.email,
+                user_uid: data.user.id
             }])
 
 

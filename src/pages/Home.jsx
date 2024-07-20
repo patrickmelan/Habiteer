@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ColorPicker from "react-best-gradient-color-picker";
+import { Link } from "react-router-dom";
+import Navbar from "../components/Navbar";
+import TileLayout from "../components/TileLayout";
 
 const Home = ({token}) => {
     
@@ -11,32 +14,16 @@ const Home = ({token}) => {
         navigate("/");
     }
 
-    const [formData, updateFormData] = useState({
-        name: "",
-        streak: 0,
-        color_hex: "",
-        dates_completed: [""],
-        user_id: token.user.user_metadata.id
-    })
-    
-    const handleChange = (event) => {
-        updateFormData((prevFormData) => {
-            return {
-                ...prevFormData,
-                [event.target.name]:event.target.value
-            }
-        })
-    
-        //console.log(formData);
-    }
-
-    const [color, setColor] = useState('rgba(255, 255, 255, 1)');
-
     return (
-        <div>
-            <h1>Ready to make good habits, {token.user.user_metadata.first_name}?</h1>
-            <button onClick={handleLogout} className="btn btn-secondary"> Logout</button>
-            <button className="btn btn-primary ml-8">Create a Habit</button>
+        <div className="h-screen mx-4">
+            <Navbar />
+            
+            <center className="h-screen">
+                <h1 className="text-2xl">Ready to make good habits, <strong>{token.user.user_metadata.first_name}?</strong></h1>
+                <TileLayout />
+                <button onClick={handleLogout} className="btn btn-secondary"> Logout</button>
+                <button className="btn btn-primary ml-8" onClick={() => navigate("/add")}>Create a Habit</button>
+            </center>
 
         </div>
     )
