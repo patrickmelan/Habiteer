@@ -21,8 +21,6 @@ const Home = ({token}) => {
             <center className="h-screen">
                 <h1 className="text-2xl">Ready to make good habits, <strong>{token.user.user_metadata.first_name}?</strong></h1>
                 <TileLayout />
-                <button onClick={handleLogout} className="btn btn-secondary"> Logout</button>
-                <button className="btn btn-primary ml-8" onClick={() => navigate("/add")}>Create a Habit</button>
             </center>
 
         </div>
