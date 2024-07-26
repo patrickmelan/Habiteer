@@ -6,13 +6,6 @@ import Navbar from "../components/Navbar";
 import TileLayout from "../components/TileLayout";
 
 const Home = ({token}) => {
-    
-    let navigate = useNavigate();
-
-    function handleLogout() {
-        sessionStorage.removeItem("token");
-        navigate("/");
-    }
 
     return (
         <div className="h-screen mx-4">
