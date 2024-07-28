@@ -1,10 +1,11 @@
 import ProgressBar from "@ramonak/react-progress-bar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { supabase } from "../sbclient";
 
 const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
+    const [times_today, setToday] = useState([]);
+    const today = new Date().toLocaleDateString('en-CA', {timeZone: "UTC"});
 
-    
     async function log(e) {
         e.preventDefault();
         
@@ -14,7 +15,8 @@ const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
             .insert(
                 {
                     habit_id: id,
-                    user_id: (await supabase.auth.getUser()).data.user.id
+                    user_id: (await supabase.auth.getUser()).data.user.id,
+                    date: today
                 }
             , { returning: 'minimal' }).select('*')
 
@@ -27,7 +29,30 @@ const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
         } catch (error) {
             alert(error);
         }
+
+        todayfunc();
     }
+
+    async function todayfunc() {
+        try {
+            const { data, error } = await supabase
+            .from("date_log")
+            .select("created_at")
+            .eq('habit_id', id)
+            .eq("date", today)
+
+            setToday(data);
+
+            console.log(times_today)
+
+        } catch (error) {
+            alert(error)
+        }
+
+        
+    }
+
+
 
 
     return (
@@ -39,7 +64,7 @@ const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
                 <h1 className="pt-2 text-xl text-white">{name}</h1>
                 <h1>Goal: {days_goal} days</h1>
                 <h1>{times_per_day}x/Day</h1>
-                <button className="btn my-2" onClick={log}>Log Today</button>
+                <button className="btn my-2" onClick={log}>Log Today ({times_today}/{times_per_day})</button>
             </div>
         </div>
     )

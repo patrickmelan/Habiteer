@@ -26,10 +26,7 @@ export default function AddHabit({token}) {
             }
         })
     
-        //console.log(formData);
     }
-
-    //console.log(token.user.id);
 
     async function handleSubmit(e) {
         e.preventDefault();
