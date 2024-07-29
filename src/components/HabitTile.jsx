@@ -1,10 +1,14 @@
 import ProgressBar from "@ramonak/react-progress-bar";
 import { useEffect, useState } from "react";
 import { supabase } from "../sbclient";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
-const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
+const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
     const [times_today, setToday] = useState([]);
-    const today = new Date().toLocaleDateString('en-CA', {timeZone: "UTC"});
+    let today = new Date().toLocaleDateString('en-CA', {timeZone: "UTC"});
+    const [done, setDone] = useState(false);
+    //const uid = async () => (await supabase.auth.getUser()).data.user.id;
 
     async function log(e) {
         e.preventDefault();
@@ -20,16 +24,13 @@ const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
                 }
             , { returning: 'minimal' }).select('*')
 
-            console.log(data);
-            console.log((await supabase.auth.getUser()).data.user.id);
-
             if (error) {
                 console.log("Error found: ", error);
             };
         } catch (error) {
             alert(error);
         }
-
+        
         todayfunc();
     }
 
@@ -43,14 +44,33 @@ const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
 
             setToday(data);
 
-            console.log(times_today)
+            if (!done && times_today == times_per_day) {
+                addToStreak();
+                setDone(true)
+            }
+
+        } catch (error) {
+            alert(error)
+        } 
+    }
+
+    async function addToStreak() {
+        try {
+            const { data, error } = await supabase
+            .from("habits")
+            .update({'streak': streak+1})
+            .eq('user_id', (await supabase.auth.getUser()).data.user.id)
+
+            streak += 1;
 
         } catch (error) {
             alert(error)
         }
-
-        
     }
+
+    useEffect(() => {
+        todayfunc();
+    }, [])
 
 
 
@@ -64,7 +84,9 @@ const HabitTile = ({id, name, days_goal, times_per_day, hex}) => {
                 <h1 className="pt-2 text-xl text-white">{name}</h1>
                 <h1>Goal: {days_goal} days</h1>
                 <h1>{times_per_day}x/Day</h1>
-                <button className="btn my-2" onClick={log}>Log Today ({times_today}/{times_per_day})</button>
+                <h1>You're on a {streak} day streak!</h1>
+                <button style={{'background-color': 'black'}} className="btn my-2" onClick={log}>Log Today ({times_today ? times_today.length : 0}/{times_per_day})</button>
+                <ToastContainer position="bottom-right" />
             </div>
         </div>
     )

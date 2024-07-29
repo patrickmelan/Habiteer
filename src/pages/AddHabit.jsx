@@ -43,7 +43,8 @@ export default function AddHabit({token}) {
                         dates_completed: formData.dates_completed,
                         times_per_day: formData.times_per_day,
                         days_goal: formData.days_goal,
-                        user_id: (await supabase.auth.getUser()).data.user.id
+                        user_id: (await supabase.auth.getUser()).data.user.id,
+                        streak: 0
                     }
             ], { returning: 'minimal' }).select('*')
             console.log(formData);
@@ -51,10 +52,8 @@ export default function AddHabit({token}) {
             if (error) {
                 console.log("Error found: ", error);
             };
-            console.log(data);
+
             navigate("/home");
-
-
         } catch (error) {
             alert(error);
         }
