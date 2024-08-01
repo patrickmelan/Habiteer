@@ -25,7 +25,7 @@ const TileLayout = () => {
     
     return (
         <div>
-            <div className="grid h-full grid-cols-1 md:grid-cols-5 mt-4 space-x-4 space-y-2">
+            <div className="grid h-full grid-cols-1 md:grid-cols-5 mt-4 space-x-4">
                 {habits ? habits.map((habit) => 
                     <div className="">
                         <HabitTile id={habit.id} name={habit.name} streak={habit.streak} days_goal={habit.days_goal} times_per_day={habit.times_per_day} hex={habit.color_hex}/>

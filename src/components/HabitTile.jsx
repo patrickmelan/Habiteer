@@ -88,14 +88,14 @@ const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
     }, [])
 
     return (
-        <div className="flex flex-col border-zinc-900 border-2 shadow-2xl py-4 px-4 rounded-lg w-full h-full">
+        <div className="flex flex-col border-zinc-900 border-2 shadow-2xl space-y-4 space-x-4 py-4 px-4 rounded-lg w-full h-full">
             <div className="text-left">
                 <ProgressBar completed={streak ? Math.round((((streak)/days_goal)*100)) : 87} className="w-full" baseBgColor="rgb(177, 165, 187)" maxCompleted={100} customLabel="" bgColor={hex} />
             </div>
             <div className="text-center">
-                <h1 className="pt-2 text-xl text-white">{name ? name : "{Habit Name}"}</h1>
-                <h1>Goal: {days_goal ? days_goal : "{Goal}"} days</h1>
-                <h1>{times_per_day ? times_per_day : "{Times per day}"}x/Day</h1>
+                <h1 className="pt-2 text-xl text-white">{name ? name : "{Type habit name}"}</h1>
+                <h1>Goal: {days_goal ? days_goal : "{Type your goal}"} days</h1>
+                
                 <h1>You're on a {varStreak ? varStreak : "{Streak}"} day streak!</h1>
                 <button style={{'background-color': 'black'}} className="btn my-2" onClick={log}>{times_today && times_today.length == times_per_day ? <h1>All Done!</h1> : <h1>Log Today</h1>}({times_today ? times_today.length : 0}/{times_per_day})</button>
             </div>
@@ -104,3 +104,5 @@ const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
 }
 
 export default HabitTile;
+
+//<h1>{times_per_day ? times_per_day : "{Times per day}"}x/Day</h1>

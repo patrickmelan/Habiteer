@@ -14,7 +14,7 @@ export default function AddHabit({token}) {
         streak: 0,
         color_hex: color,
         dates_completed: [""],
-        times_per_day: "",
+        times_per_day: 1,
         days_goal: ""
     })
     
@@ -47,8 +47,8 @@ export default function AddHabit({token}) {
                         streak: 0
                     }
             ], { returning: 'minimal' }).select('*')
-            console.log(formData);
-            console.log(supabase.auth.getUser());
+            //console.log(formData);
+            //console.log(supabase.auth.getUser());
             if (error) {
                 console.log("Error found: ", error);
             };
@@ -68,14 +68,13 @@ export default function AddHabit({token}) {
                 <div className="flex flex-col items-center h-5/6 space-y-4 pr-16">
                     <h2>Create</h2>
                     <div className="flex flex-col items-center space-y-2">
-                        <input type="text" name="name" onChange={handleChange} placeholder="Habit Name?" required className="input w-3/4 input-bordered input-white "/>
-                        <div className="flex space-x-2 ml-8">
-                            <input className="input w-1/3 input-bordered input-white" type="number" max={24}  name="times_per_day" onChange={handleChange} placeholder="Times/Day?" required />
-                            <input className="input w-1/3 input-bordered input-white" type="number" max={1000} name="days_goal" onChange={handleChange} placeholder="Goal (Days)?" required />
-                        </div>
+                        <input type="text" name="name" onChange={handleChange} placeholder="Habit Name?" required className="input w-full input-bordered input-white "/>
+                        <input className="input w-full input-bordered input-white" type="number" max={1000} name="days_goal" onChange={handleChange} placeholder="Goal (Days)?" required />
                     </div>
 
-                    <ColorPicker id="color" value={color} onChange={setColor} hidePresets={true} hideControls={true} hideOpacity={true} hideInputs={true} />              
+                    <div className="flex w-full">
+                        <ColorPicker id="color" value={color} onChange={setColor} hidePresets={true} hideControls={true} hideOpacity={true} hideInputs={true} />     
+                    </div>             
                 </div>
                 <div className="hidden flex-col md:block items-center h-5/6 space-y-4 px-8 pb-8">
                     <h2>Preview</h2>
@@ -86,3 +85,5 @@ export default function AddHabit({token}) {
         </div>
     )
 }
+
+//<input className="input w-1/3 input-bordered input-white" type="number" max={24}  name="times_per_day" onChange={handleChange} placeholder="Times/Day?" required />
