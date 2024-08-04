@@ -78,7 +78,7 @@ export default function AddHabit({token}) {
                 </div>
                 <div className="hidden flex-col md:block items-center h-5/6 space-y-4 px-8 pb-8">
                     <h2>Preview</h2>
-                    <HabitTile  name={formData.name} hex={color} times_per_day={formData.times_per_day} days_goal={formData.days_goal}/>
+                    <HabitTile  name={formData.name} hex={color} preview={true} times_per_day={formData.times_per_day} days_goal={formData.days_goal}/>
                 </div>
             </div>
             <button className="btn btn-primary" onClick={handleSubmit} >Add this Habit</button>

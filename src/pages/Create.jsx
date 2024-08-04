@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { supabase } from "../sbclient";
 import { Link, useNavigate } from "react-router-dom";
+import AppLogo from "../components/AppLogo";
 
 export default function Create({setToken}) {
 
@@ -21,7 +22,6 @@ export default function Create({setToken}) {
             }
         })
     
-        //console.log(formData);
     }
     
     async function handleSubmit(e) {
@@ -45,19 +45,6 @@ export default function Create({setToken}) {
               console.log(data);
               setToken(data);
               navigate('/home');
-
-            //alert("Check email for verification link!")
-
-            const { data2, error2 } = await supabase
-            .from('user')
-            .insert([{   
-                first_name: formData.first_name,
-                last_name: formData.last_name,
-                email: formData.email,
-                user_uid: data.user.id
-            }])
-
-
         } catch (error) {
             alert(error);
         }
@@ -65,8 +52,9 @@ export default function Create({setToken}) {
     
     return (
         <div className="flex justify-center h-screen">
-            <form action="" className=" py-36">
-                <div className="flex flex-col space-y-3">
+            <form action="" className="">
+                <div className="flex flex-col space-y-3 items-center py-8">
+                    <AppLogo size={350}/>
                     <div className="flex space-x-3">
                         <input type="text" name="first_name" onChange={handleChange} placeholder="First Name" required className="input input-bordered input-white "/>
                         <input type="text" name="last_name" onChange={handleChange} placeholder="Last Name" required className="input input-bordered input-white "/>

@@ -7,7 +7,7 @@ import TileLayout from "../components/TileLayout";
 
 const Home = ({token}) => {
     let currentDate = new Date().toJSON().slice(0, 10);
-    console.log(currentDate);
+
     return (
         <div className="h-screen mx-4">
             <Navbar />

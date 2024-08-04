@@ -5,9 +5,14 @@ import { supabase } from "../sbclient";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
-const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
+const HabitTile = ({id, name, streak, days_goal, preview, times_per_day, hex}) => {
     const [times_today, setToday] = useState([]);
     let today = new Date().toLocaleDateString('en-CA', {timeZone: "UTC"});
+    let yesterday = new Date(today);
+    yesterday.setDate(yesterday.getDate() - 1);
+    yesterday = yesterday.toLocaleDateString('en-CA', {timeZone: "UTC"});
+    //console.log(today);
+    //console.log(yesterday);
     const [varStreak, setStreak] = useState(streak);
  
     //const uid = async () => (await supabase.auth.getUser()).data.user.id;
@@ -15,8 +20,10 @@ const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
     async function log(e) {
         e.preventDefault();
         
-        if (times_today && times_per_day > times_today.length) {
+        // checks if the amount of logs today is less than the amount the user inputted
+        if (times_today && times_today.length < 1) {
             try {
+                //log habit to supabase db
                 const { data, error } = await supabase
                 .from("date_log")
                 .insert(
@@ -32,11 +39,16 @@ const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
                 }
                 
                 checkToday();
+
+                if (times_today && times_per_day == times_today.length) {
+                    changeStreak(varStreak+1);
+                }
             
             } catch (error) {
                 alert(error);
+            
             }
-        }
+        } 
           
     }
 
@@ -47,22 +59,31 @@ const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
             .select("created_at")
             .eq('habit_id', id)
             .eq("date", today)
+            
+            const { data2, error2 } = await supabase
+            .from("date_log")
+            .select("created_at")
+            .eq('habit_id', id)
+            .eq("date", yesterday)
+
+            if (data2 && data2.length == 0) {
+                changeStreak(0);
+            }
 
             setToday(data);
-
 
         } catch (error) {
             alert(error)
         } 
     }
 
-    async function addToStreak() {
-        setStreak(streak + 1);
+    async function changeStreak(changeTo) {
+        setStreak(changeTo);
         
         try {
             const { data, error } = await supabase
             .from("habits")
-            .update({'streak': varStreak})
+            .update({'streak': changeTo})
             .eq('user_id', (await supabase.auth.getUser()).data.user.id)
             .eq('id', id)
 
@@ -87,7 +108,7 @@ const HabitTile = ({id, name, streak, days_goal, times_per_day, hex}) => {
     return (
         <div className="flex flex-col border-zinc-900 border-2 shadow-2xl py-4 px-4 rounded-lg w-full h-full">
             <div className="text-left">
-                {streak != 0 ? <ProgressBar completed={Math.round((((streak)/days_goal)*100))} className="w-full" baseBgColor="rgb(177, 165, 187)" maxCompleted={100} bgColor={hex} /> : ""}
+                {streak != 0 ? <ProgressBar completed={preview ? 50 : Math.round((((streak)/days_goal)*100))} className="w-full" baseBgColor="rgb(177, 165, 187)" maxCompleted={100} bgColor={hex} /> : ""}
             </div>
             <div className="text-center">
                 <h1 className="pt-2 text-xl text-white">{name ? name : "{Type habit name}"}</h1>
